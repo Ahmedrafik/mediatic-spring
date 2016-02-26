@@ -2,7 +2,6 @@ package fr.iocean.application.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-
 import fr.iocean.application.exception.NotFoundException;
 import fr.iocean.application.model.IoEntity;
 
