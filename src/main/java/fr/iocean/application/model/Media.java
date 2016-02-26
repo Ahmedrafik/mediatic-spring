@@ -3,39 +3,33 @@ package fr.iocean.application.model;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import fr.iocean.application.typeEnum.TypeMedia;
 
 @Entity
-@Table(name="media")
-public class Media {
+public class Media implements IoEntity {
 
-	// Attributs 
-	
+	private static final long serialVersionUID = 8332099398765623811L;
+
 	@Id
 	@GeneratedValue
 	private Long id;
 	
-	@Column
 	private String titre;
-	@Column
+
 	private String auteur;
 	
 	@OneToMany(mappedBy="media")
 	private List<Emprunt> listEmprunts;
 	
-	@Column
 	private LocalDate dateEmprunt;
 	
-	@Column
 	@Enumerated(value = EnumType.STRING)
 	private TypeMedia typeMedia;
 	
@@ -104,6 +98,12 @@ public class Media {
 	public String toString() {
 		return "Media [titre=" + titre + ", auteur=" + auteur + ", listEmprunts=" + listEmprunts + ", dateEmprunt="
 				+ dateEmprunt + ", typeMedia=" + typeMedia + "]";
+	}
+
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+		
 	}
 	
 	

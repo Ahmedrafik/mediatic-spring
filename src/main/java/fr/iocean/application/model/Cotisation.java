@@ -3,30 +3,26 @@ package fr.iocean.application.model;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import fr.iocean.application.typeEnum.TypeCotisation;
 
 @Entity
-@Table(name="cotisation")
-public class Cotisation {
+public class Cotisation implements IoEntity {
 	
-	// Attributs 
-	
+	private static final long serialVersionUID = 3107277028575102667L;
+
 	@Id
 	@GeneratedValue
 	private long id;
 	
-	@Column
 	private float montant;
-	@Column
+	
 	private LocalDate dateCotisation;
 	
 	@Enumerated(value = EnumType.STRING)
@@ -78,7 +74,7 @@ public class Cotisation {
 		this.typeCotisation = typeCotisation;
 	}
 
-	// M�thodes
+	// Méthodes
 	
 	public static boolean isUpToDateCotisation(Adherent adh){
 		return adh.getCotisation().getDateCotisation().plusYears(1L).isAfter(LocalDate.now());
@@ -88,6 +84,17 @@ public class Cotisation {
 	public String toString() {
 		return "Cotisation [montant=" + montant + ", dateCotisation=" + dateCotisation + ", typeCotisation="
 				+ typeCotisation + "]";
+	}
+
+	@Override
+	public Long getId() {
+		return this.id;
+	}
+
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+		
 	}
 
 }

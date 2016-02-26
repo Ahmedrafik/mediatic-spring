@@ -1,27 +1,29 @@
 package fr.iocean.application.model;
 
 import java.time.LocalDate;
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "emprunt")
-public class Emprunt {
+public class Emprunt implements IoEntity {
 	
+	private static final long serialVersionUID = 6401065246919493368L;
+
 	@Id
 	@GeneratedValue
 	private Long id;
+	
 	@ManyToOne
 	private Adherent adherent;
+	
 	@ManyToOne
 	private Media media;
-	@Column
+	
 	private LocalDate date_emprunt;
-	@Column
+	
 	private LocalDate date_retour;
 	
 	public Emprunt(){}
@@ -41,6 +43,10 @@ public class Emprunt {
 	
 	public Long getId() {
 		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Adherent getAdherent() {
@@ -77,9 +83,11 @@ public class Emprunt {
 
 	@Override
 	public String toString() {
-		return "Emprunt [adherent=" + adherent.getNom() + ", media=" + media.getTitre() + ", date_emprunt=" + date_emprunt
+		return "Emprunt [adherent=" + adherent.getCoordonnees().getNom() + ", media=" + media.getTitre() + ", date_emprunt=" + date_emprunt
 				+ ", date_retour=" + date_retour + "]";
 	}
+
+	
 
 	
 

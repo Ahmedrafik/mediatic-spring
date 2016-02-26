@@ -1,49 +1,36 @@
 package fr.iocean.application.model;
 
-import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.Table;
-
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
-
-import fr.iocean.application.exception.LoginException;
-import fr.iocean.application.utilitaires.Utilitaires;
-
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.validation.Valid;
 
 @Entity
-@Table(name="utilisateur")
-public class Utilisateur extends Personne implements IoEntity {
-	
-	@Column(name = "login")
-	@NotBlank
-	@Length(max = 100)
+public class Utilisateur implements IoEntity {
+
+	private static final long serialVersionUID = 7991372331623137021L;
+
+	@Id
+	@GeneratedValue
+	private Long id;
+
 	private String login;
-	
-	@NotBlank
-	@Length(max = 100)
-	@Column(name = "password")
+
 	private String password;
 	
-	@Column(name = "niveau_acces")
 	private int authentification;
+
+	@Embedded
+	@Valid
+	private Coordonnees coordonnees;
 	
-	
-	
-	
-	public Utilisateur(String nom, String prenom, String email , String login, String password, int auth){
-		super(nom, prenom, email);
-		this.login = login;
-		try{
-			Utilitaires.verifierPassword(password);
-		}
-		catch(Exception e){
-			System.out.println("Password incorect !!");
-		}
-		this.password = password;
+	public Utilisateur(String nom, String prenom, String email, String login, String password, int auth) {
+		Coordonnees coordonnees = new Coordonnees(nom, prenom, email);
+		this.coordonnees = coordonnees;
 		this.authentification = auth;
 	}
-	
+
 	public Utilisateur() {
 	}
 
@@ -70,29 +57,29 @@ public class Utilisateur extends Personne implements IoEntity {
 	public void setAuthentification(int authentification) {
 		this.authentification = authentification;
 	}
+	
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Coordonnees getCoordonnees() {
+		return coordonnees;
+	}
+
+	public void setCoordonnees(Coordonnees coordonnees) {
+		this.coordonnees = coordonnees;
+	}
 
 	@Override
 	public String toString() {
 		return "Utilisateur [login=" + login + ", password=" + password + ", authentification=" + authentification
 				+ "]";
 	}
-	
-	
-	
-	// methode 
-	public static void login(String login,String mdp) throws LoginException {
-		//TODO : Appeller la BDD.
-	
-		
-		if(login==null||mdp==null||Utilitaires.verifierPassword(mdp)==false)
-		{
-			throw new LoginException(); 
-		}
-	}	
-	
-	
-	
-	
-	
 
 }

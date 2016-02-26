@@ -1,18 +1,13 @@
 package fr.iocean.application.model;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class Adresse {
 
-	@Column
 	private int numero;
-	@Column
 	private String adresse;
-	@Column
 	private int codePostal;
-	@Column
 	private String ville;
 	
 	public Adresse(){

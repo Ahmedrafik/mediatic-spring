@@ -1,9 +1,9 @@
 package fr.iocean.application.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,18 +11,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.validation.Valid;
 
 @Entity
-@Table(name="adherent")
-public class Adherent extends Personne implements IoEntity{
+public class Adherent implements IoEntity {
 	private static final long serialVersionUID = 4924955615780825914L;
 	
 	@Id
 	@GeneratedValue
 	private Long id;
 	
-	@Column(name = "date_naissance")
+	@Embedded
+	@Valid
+	private Coordonnees coordonnees;
+	
 	private LocalDate dateNaissance;
 	
 	@Embedded
@@ -32,15 +34,14 @@ public class Adherent extends Personne implements IoEntity{
 	private Cotisation cotisation;
 	
 	@OneToMany(mappedBy = "adherent", fetch = FetchType.EAGER)
-	private List<Emprunt> listeEmprunt;
-
-	// Constructeurs
+	private List<Emprunt> listeEmprunt = new ArrayList<>();
 
 	public Adherent() {
 	}
 	
-	public Adherent(String nom, String prenom, String mail, LocalDate date, Adresse adresse, Cotisation cotisation) {
-		super(nom, prenom, mail);
+	public Adherent(String nom, String prenom, String email, LocalDate date, Adresse adresse, Cotisation cotisation) {
+		Coordonnees coordonnees = new Coordonnees(nom, prenom, email);
+		this.coordonnees = coordonnees;
 		this.dateNaissance = date;
 		this.adresse = adresse;
 		this.cotisation = cotisation;
@@ -78,19 +79,16 @@ public class Adherent extends Personne implements IoEntity{
 		this.listeEmprunt = listeEmprunt;
 	}
 	
-	public void addEmprunt(Emprunt emprunt){
-		if(emprunt != null){
-			this.listeEmprunt.add(emprunt);
-		}
-	}
-	
 	public int nbMedias(){
-		if(this.getListeEmprunt() == null){
-			return 0;
-		}
-		else{
-			return this.getListeEmprunt().size();
-		}
+		return this.listeEmprunt != null ? this.listeEmprunt.size() : 0;
+	}
+
+	public Coordonnees getCoordonnees() {
+		return coordonnees;
+	}
+
+	public void setCoordonnees(Coordonnees coordonnees) {
+		this.coordonnees = coordonnees;
 	}
 
 	@Override
@@ -99,7 +97,15 @@ public class Adherent extends Personne implements IoEntity{
 				+ ", listeEmprunt=" + listeEmprunt + "]";
 	}
 
+	@Override
+	public Long getId() {
+		return id;
+	}
 
-
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+		
+	}
 
 }
