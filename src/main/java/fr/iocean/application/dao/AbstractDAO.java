@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import fr.iocean.application.model.IoEntity;
 
 @Repository
-public abstract class AbstractDAO <T extends IoEntity> {
+public abstract class AbstractDAO<T extends IoEntity> {
 	
 	
 	private Class<T> entityClass;

@@ -3,13 +3,13 @@ package fr.iocean.application.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
 import fr.iocean.application.exception.LoginException;
 import fr.iocean.application.utilitaires.Utilitaires;
 
+
 @Entity
 @Table(name="utilisateur")
-public class Utilisateur extends Personne {
+public class Utilisateur extends Personne implements IoEntity {
 	
 	@Column(name = "login")
 	private String login;
@@ -66,8 +66,9 @@ public class Utilisateur extends Personne {
 				+ "]";
 	}
 	
-	// methode 
 	
+	
+	// methode 
 	public static void login(String login,String mdp) throws LoginException {
 		//TODO : Appeller la BDD.
 	
