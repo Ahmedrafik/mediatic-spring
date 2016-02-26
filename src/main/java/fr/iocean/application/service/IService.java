@@ -1,12 +1,15 @@
 package fr.iocean.application.service;
 
 import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import fr.iocean.application.model.IoEntity;
 
-
+@Service
 public interface IService<T extends IoEntity> {
 
-	void saveUser(T t);
+	void save(T t);
 
 	List<T> findAllUser();
 
