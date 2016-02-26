@@ -7,14 +7,21 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="adherent")
-public class Adherent extends Personne {
-
+public class Adherent extends Personne implements IoEntity{
+	private static final long serialVersionUID = 4924955615780825914L;
+	
+	@Id
+	@GeneratedValue
+	private Long id;
+	
 	@Column(name = "date_naissance")
 	private LocalDate dateNaissance;
 	

@@ -11,7 +11,7 @@ public interface IService<T extends IoEntity> {
 
 	void save(T entity);
 
-	List<T> findAllUser();
+	List<T> findAll();
 
 	T findById(long id) throws NotFoundException;
 
