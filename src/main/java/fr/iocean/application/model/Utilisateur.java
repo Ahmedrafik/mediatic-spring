@@ -3,6 +3,10 @@ package fr.iocean.application.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 import fr.iocean.application.exception.LoginException;
 import fr.iocean.application.utilitaires.Utilitaires;
 
@@ -12,8 +16,12 @@ import fr.iocean.application.utilitaires.Utilitaires;
 public class Utilisateur extends Personne implements IoEntity {
 	
 	@Column(name = "login")
+	@NotBlank
+	@Length(max = 100)
 	private String login;
 	
+	@NotBlank
+	@Length(max = 100)
 	@Column(name = "password")
 	private String password;
 	

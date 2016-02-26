@@ -7,6 +7,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 
+import org.hibernate.validator.constraints.Email;
+
 import fr.iocean.application.utilitaires.Utilitaires;
 
 @MappedSuperclass
@@ -23,6 +25,7 @@ public abstract class Personne {
 	@Column(name="prenom")
 	private String prenom;
 	
+	@Email
 	@Column(name="email")
 	private String email;
 
