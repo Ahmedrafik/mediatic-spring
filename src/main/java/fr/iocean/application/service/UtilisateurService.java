@@ -30,7 +30,7 @@ public class UtilisateurService implements IService<Utilisateur> {
 	}
 
 	@Override
-	public List<Utilisateur> findAllUser() {
+	public List<Utilisateur> findAll() {
 		return utilisateurDAO.findAll();
 	}
 

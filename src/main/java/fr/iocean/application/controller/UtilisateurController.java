@@ -58,7 +58,7 @@ public class UtilisateurController {
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Utilisateur> findAll() {
-		List<Utilisateur> users = utilisateurService.findAllUser();
+		List<Utilisateur> users = utilisateurService.findAll();
 		if (users.isEmpty()) {
 			return null;
 
