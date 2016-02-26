@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
 import fr.iocean.application.dao.UtilisateurDAO;
 import fr.iocean.application.exception.NotFoundException;
 import fr.iocean.application.model.Utilisateur;
@@ -22,6 +24,8 @@ public class UtilisateurService implements IService<Utilisateur> {
 
 	@Override
 	public void save(Utilisateur entity) {
+		if(!StringUtils.isEmpty(entity.getPassword()))
+			entity.setPassword(passwordEncoder.encode(entity.getPassword()));
 		utilisateurDAO.save(entity);
 	}
 

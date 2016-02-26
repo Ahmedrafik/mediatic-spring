@@ -20,6 +20,9 @@ public class Utilisateur extends Personne implements IoEntity {
 	@Column(name = "niveau_acces")
 	private int authentification;
 	
+	
+	
+	
 	public Utilisateur(String nom, String prenom, String email , String login, String password, int auth){
 		super(nom, prenom, email);
 		this.login = login;
