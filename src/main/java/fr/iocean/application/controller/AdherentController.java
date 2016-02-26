@@ -4,9 +4,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,15 +15,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.iocean.application.exception.NotFoundException;
-
 import fr.iocean.application.model.Adherent;
 import fr.iocean.application.service.AdherentService;
 
 @RestController
-@RequestMapping("adherents")
-@Transactional
+@RequestMapping("/api/adherents")
 public class AdherentController {
 
+	@Autowired
 	private AdherentService adherentService;
 	
 	@RequestMapping(method = RequestMethod.POST)

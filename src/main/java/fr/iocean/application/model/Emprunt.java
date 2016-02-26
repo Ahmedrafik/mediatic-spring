@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "emprunt")
-public class Emprunt {
+public class Emprunt implements IoEntity{
 	
 	@Id
 	@GeneratedValue
@@ -41,6 +41,11 @@ public class Emprunt {
 	
 	public Long getId() {
 		return id;
+	}
+	
+	@Override
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Adherent getAdherent() {
@@ -80,6 +85,8 @@ public class Emprunt {
 		return "Emprunt [adherent=" + adherent.getNom() + ", media=" + media.getTitre() + ", date_emprunt=" + date_emprunt
 				+ ", date_retour=" + date_retour + "]";
 	}
+
+	
 
 	
 

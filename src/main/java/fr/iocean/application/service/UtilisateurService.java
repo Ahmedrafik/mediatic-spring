@@ -1,20 +1,18 @@
 package fr.iocean.application.service;
 
-import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import fr.iocean.application.dao.UtilisateurDAO;
-import fr.iocean.application.exception.NotFoundException;
 import fr.iocean.application.model.Utilisateur;
 
 @Service
 @Transactional
-public class UtilisateurService implements IService<Utilisateur> {
+public class UtilisateurService extends AbstractService<Utilisateur, UtilisateurDAO> {
 
 	@Autowired
 	private UtilisateurDAO utilisateurDAO;
@@ -22,47 +20,13 @@ public class UtilisateurService implements IService<Utilisateur> {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@Override
-	public void save(Utilisateur entity) {
-		if(!StringUtils.isEmpty(entity.getPassword()))
-			entity.setPassword(passwordEncoder.encode(entity.getPassword()));
-		utilisateurDAO.save(entity);
-	}
-
-	@Override
-	public List<Utilisateur> findAll() {
-		return utilisateurDAO.findAll();
-	}
-
-	@Override
-	public Utilisateur findById(long id) throws NotFoundException {
-
-		Utilisateur utilsateur = utilisateurDAO.findOne(id);
-		if (utilsateur == null) {
-			throw new NotFoundException();
-		}
-		return utilsateur;
-	}
-
-	@Override
-	public Utilisateur update(Utilisateur entity) throws NotFoundException {
-		if (utilisateurDAO.findOne(entity.getId()) == null) {
-			throw new NotFoundException();
-		}
-		return utilisateurDAO.save(entity);
-	}
-
-	@Override
-	public void delete(Long id) throws NotFoundException {
-		Utilisateur utilisateur = utilisateurDAO.findOne(id);
-		if (utilisateur == null) {
-			throw new NotFoundException();
-		}
-		utilisateurDAO.delete(utilisateur);
-	}
-
 	public Optional<Utilisateur> findByLogin(String login) {
 		return utilisateurDAO.findOneByLogin(login);
+	}
+
+	@Override
+	protected UtilisateurDAO getDao() {
+		return utilisateurDAO;
 	}
 
 }

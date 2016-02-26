@@ -11,18 +11,8 @@ import fr.iocean.application.model.Media;
 
 public class Utilitaires {
 
-	public static boolean verifierMail(String email) {
-		String regex = "[^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$]";
-		return regex.matches(email);
-	}
-
-	public static String getDateFrancais(LocalDate maDate) {
+		public static String getDateFrancais(LocalDate maDate) {
 		return maDate.format(DateTimeFormatter.ofPattern("d MMMM yyyy", new Locale("fr")));
-	}
-
-	public static boolean verifierPassword(String password) {
-		return (password.length() >= 6);
-
 	}
 
 	public static void sortMediasDate(Adherent ad) {

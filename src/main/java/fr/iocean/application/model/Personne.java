@@ -32,13 +32,7 @@ public abstract class Personne {
 	public Personne(String nom, String prenom, String email) {
 		this.nom = nom;
 		this.prenom = prenom;
-		this.email = email;
-		try {
-			Utilitaires.verifierMail(email);
-		} catch (Exception e) {
-			System.out.println("Courriel au mauvais format.");
-		}
-		
+		this.email = email;	
 	}
 
 	public Long getId() {
