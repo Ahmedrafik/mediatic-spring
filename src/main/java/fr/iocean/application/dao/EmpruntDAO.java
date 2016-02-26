@@ -2,14 +2,11 @@ package fr.iocean.application.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
 import fr.iocean.application.model.Emprunt;
-import fr.iocean.application.utilitaires.PersistenceManagerFactorySingleton;
 
 @Repository
 public class EmpruntDAO {//extends AbstractDAO<Emprunt>{
