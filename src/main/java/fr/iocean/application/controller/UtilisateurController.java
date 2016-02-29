@@ -18,7 +18,7 @@ import fr.iocean.application.service.UtilisateurService;
 
 
 @RestController
-@RequestMapping("api/utilsateur")
+@RequestMapping("api/utilisateur")
 public class UtilisateurController {
 
 
