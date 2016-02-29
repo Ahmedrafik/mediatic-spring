@@ -36,15 +36,19 @@ public class MediaDAO extends AbstractDAO<Media>{
 		if(filters.size()>0){
 			int i = 0;
 			for(Entry<String,String> entry : filters.entrySet()){
-				if(i==0){maRequete += " WHERE " + entry.getKey() + "LIKE '%:" + entry.getKey() + "%'" ;}else{
-					maRequete += " AND " + entry.getKey() + "LIKE '%:"  + entry.getKey() + "%'";
-					i++;
+				if(i==0){maRequete += " WHERE ";}else{
+					maRequete += " AND ";
 				}
+				maRequete += entry.getKey() + " LIKE '%:"  + entry.getKey() + "%'";
+				i++;
 			}
 		}
 		// 
 		if(orderField!= null && orderField != ""){
-			maRequete += " ORDER BY :orderField :orderDirection"; 
+			maRequete += " ORDER BY :orderField"; 
+			if(orderField=="ASC"){ maRequete += " ASC";}else{
+				maRequete += " DESC";
+			}
 		}
 		if(limit!=0){
 			maRequete += " LIMIT " + limit;
@@ -53,6 +57,7 @@ public class MediaDAO extends AbstractDAO<Media>{
 			maRequete += " OFFSET " + offset;
 		}
 		
+		System.out.println("requete sql : " + maRequete);
 		TypedQuery<Media> query = em.createQuery(maRequete, Media.class);
 		
 	// Second passage : je sécurise les valeurs.
