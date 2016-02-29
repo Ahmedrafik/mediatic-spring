@@ -38,4 +38,5 @@ public class AdherentDAO extends AbstractDAO<Adherent>{
 
 	
 	
+	
 }

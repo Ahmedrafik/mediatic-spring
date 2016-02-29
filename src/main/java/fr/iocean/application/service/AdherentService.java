@@ -1,5 +1,6 @@
 package fr.iocean.application.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -32,4 +33,22 @@ public class AdherentService extends AbstractService<Adherent, AdherentDAO> {
 		return this.adherentDao.getAdherentByName(filter);
 	}
 	
+	public List<Adherent> getAdherentById(Long id){
+		return this.adherentDao.getAdherentById(id);
+	}
+	
+	public List<Adherent> getAdherentByFilters(String name, Long id){
+		List<Adherent> listName = this.getAdherentByName(name);
+		List<Adherent> listId = this.getAdherentById(id);
+		List<Adherent> filterList = new ArrayList<Adherent>();
+		
+		for(Adherent adh : listName){
+			if(listId.contains(adh)){
+				filterList.add(adh);
+			}
+		}
+		
+		return filterList;
+		
+	}
 }

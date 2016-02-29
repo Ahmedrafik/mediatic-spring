@@ -16,51 +16,45 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.iocean.application.exception.NotFoundException;
 import fr.iocean.application.model.Adherent;
-import fr.iocean.application.service.AdherentService;
+import fr.iocean.application.model.Cotisation;
+import fr.iocean.application.service.CotisationService;
 
 @RestController
-@RequestMapping("api/adherent")
-public class AdherentController {
+@RequestMapping("api/cotisation")
+public class CotisationController {
 
 	@Autowired
-	private AdherentService adherentService;
+	private CotisationService cotisationService;
 	
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@PreAuthorize("hasAuthority('R_ADMIN', 'R_UTILISATEUR')")
-	public void create(@RequestBody @Valid Adherent adherent){
-		adherentService.save(adherent);
+	public void create(@RequestBody @Valid Cotisation cotisation){
+		cotisationService.save(cotisation);
 	}
-	
 	
 	@RequestMapping(value="{id}", method = RequestMethod.GET)
 	@PreAuthorize("hasAuthority('R_ADMIN', 'R_UTILISATEUR', 'R_STAGIAIRE')")
-	public Adherent findById(@PathVariable Long id) throws NotFoundException {
-		return adherentService.findById(id);
+	public Cotisation findById(@PathVariable Long id) throws NotFoundException {
+		return cotisationService.findById(id);
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
 	@PreAuthorize("hasAuthority('R_ADMIN', 'R_UTILISATEUR', 'R_STAGIAIRE')")
-	public List<Adherent> findAll(){
-		return adherentService.findAll();
+	public List<Cotisation> findAll(){
+		return cotisationService.findAll();
 	}
 	
 	@RequestMapping(value="{id}", method = RequestMethod.PUT)
 	@PreAuthorize("hasAuthority('R_ADMIN', 'R_UTILISATEUR')")
-	public void update(@PathVariable Long id, @RequestBody @Valid Adherent adherent){
-		adherentService.save(adherent);
+	public void update(@PathVariable Long id, @RequestBody @Valid Cotisation cotisation){
+		cotisationService.save(cotisation);
 	}
 	
 	@RequestMapping(value="{id}", method = RequestMethod.DELETE)
 	@PreAuthorize("hasAuthority('R_ADMIN', 'R_UTILISATEUR')")
 	public void delete(@PathVariable Long id) throws NotFoundException{
-		Adherent userToRemove = this.findById(id);
-		adherentService.delete(userToRemove.getId());
-	}
-	
-	@RequestMapping(value="{name}/{id}", method = RequestMethod.GET)
-	@PreAuthorize("hasAuthority('R_ADMIN', 'R_UTILISATEUR', 'R_STAGIAIRE')")
-	public List<Adherent> findAllWithFilters(String name, Long id){
-		return adherentService.getAdherentByFilters(name, id);
+		Cotisation userToRemove = this.findById(id);
+		cotisationService.delete(userToRemove.getId());
 	}
 }
