@@ -1,9 +1,12 @@
 package fr.iocean.application.model;
 
+import java.util.List;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.Valid;
 
 @Entity
@@ -18,17 +21,17 @@ public class Utilisateur implements IoEntity {
 	private String login;
 
 	private String password;
-	
-	private int authentification;
 
 	@Embedded
 	@Valid
 	private Coordonnees coordonnees;
-	
-	public Utilisateur(String nom, String prenom, String email, String login, String password, int auth) {
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	private List<Credential> credentials;
+
+	public Utilisateur(String nom, String prenom, String email, String login, String password) {
 		Coordonnees coordonnees = new Coordonnees(nom, prenom, email);
 		this.coordonnees = coordonnees;
-		this.authentification = auth;
 	}
 
 	public Utilisateur() {
@@ -50,14 +53,6 @@ public class Utilisateur implements IoEntity {
 		this.password = password;
 	}
 
-	public int getAuthentification() {
-		return authentification;
-	}
-
-	public void setAuthentification(int authentification) {
-		this.authentification = authentification;
-	}
-	
 	@Override
 	public Long getId() {
 		return id;
@@ -76,10 +71,18 @@ public class Utilisateur implements IoEntity {
 		this.coordonnees = coordonnees;
 	}
 
+	public List<Credential> getCredentials() {
+		return credentials;
+	}
+
+	public void setCredentials(List<Credential> credentials) {
+		this.credentials = credentials;
+	}
+
 	@Override
 	public String toString() {
-		return "Utilisateur [login=" + login + ", password=" + password + ", authentification=" + authentification
-				+ "]";
+		return "Utilisateur [id=" + id + ", login=" + login + ", password=" + password + ", coordonnees=" + coordonnees
+				+ ", credentials=" + credentials + "]";
 	}
 
 }
