@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import fr.iocean.application.dao.AbstractDAO;
@@ -16,6 +17,12 @@ public abstract class AbstractService<T extends IoEntity, U extends AbstractDAO<
 
 	private U dao;
 
+	/**
+	 * nbrResultats : nombre de résultats par page
+	 */
+	@Value("${app.query.nbrResultats}")
+	private int nbrResultats; 
+	
 	protected abstract U getDao();
 	
 	@PostConstruct
@@ -42,6 +49,14 @@ public abstract class AbstractService<T extends IoEntity, U extends AbstractDAO<
 
 	public void delete(Long id) throws NotFoundException{
 		dao.delete(this.findById(id));
+	}
+	
+	/**
+	 * Récupère le nombre d'objets par page.
+	 * @return nbrResultats
+	 */
+	public int getNbrResultats() {
+		return nbrResultats;
 	}
 
 }
