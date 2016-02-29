@@ -83,7 +83,7 @@ public class MediaController {
 	 * 
 	 * @param id
 	 * @return Media
-	 */
+	 */ 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public Media findById(@PathVariable Long id) throws NotFoundException {

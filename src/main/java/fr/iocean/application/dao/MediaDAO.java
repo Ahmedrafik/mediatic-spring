@@ -78,7 +78,7 @@ public class MediaDAO extends AbstractDAO<Media>{
 		
 		// J'effectue ma recherche
 		
-		List<Media> medias = query.getResultList();	
+		List<Media> medias = query.getResultList();
 		
 		return medias;
 	}	
