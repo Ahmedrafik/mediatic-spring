@@ -1,109 +1,83 @@
 package fr.iocean.application.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import fr.iocean.application.model.Media;
-import fr.iocean.application.utilitaires.PersistenceManagerFactorySingleton;
 
-public class MediaDAO {
+@Repository
+public class MediaDAO extends AbstractDAO<Media>{
+	
+	@Override
+	protected Class<Media> getEntityClass() {
+		return Media.class;
+	}
+	
+	/**
+	 * 
+	 * @param HashMap<String,String> filters (key : nom attribut, value : valeur de mon filtre)
+	 * @param String orderField
+	 * @Param String orderDirection
+	 * @Param int offset : géré à partir de la pagination
+	 * @Param int limit
+	 * @return ArrayList<Media>
+	 */
+	
+	@Transactional
+	public List<Media> findByFilters(HashMap<String,String> filters,String orderField,String orderDirection,int offset, int limit) {
+	// Premier passage dans le HashMap: je construis ma requete
+		String maRequete = "FROM Media";
+		if(filters.size()>0){
+			int i = 0;
+			for(Entry<String,String> entry : filters.entrySet()){
+				if(i==0){maRequete += " WHERE " + entry.getKey() + "LIKE '%:" + entry.getKey() + "%'" ;}else{
+					maRequete += " AND " + entry.getKey() + "LIKE '%:"  + entry.getKey() + "%'";
+					i++;
+				}
+			}
+		}
+		// 
+		if(orderField!= null && orderField != ""){
+			maRequete += " ORDER BY :orderField :orderDirection"; 
+		}
+		if(limit!=0){
+			maRequete += " LIMIT " + limit;
+		}
+		if(offset!=0){
+			maRequete += " OFFSET " + offset;
+		}
+		
+		TypedQuery<Media> query = em.createQuery(maRequete, Media.class);
+		
+	// Second passage : je sécurise les valeurs.
+		
+		if(filters.size()>0){
+			for(Entry<String,String> entry : filters.entrySet()){
+				query.setParameter(entry.getKey(), entry.getValue());
+			}
+		}
+		if(orderField!= null && orderField != ""){
+			query.setParameter(":orderField",orderField);
+			if(orderField =="DESC"){
+				query.setParameter(":orderDirection","DESC");
+			}else{
+				query.setParameter(":orderDirection","ASC");
+			}
+		}
+		
+		// J'effectue ma recherche
+		
+		List<Media> medias = query.getResultList();	
+		
+		return medias;
+	}	
 
-//	/**
-//	 * creer un media
-//	 * @param adh
-//	 * @return
-//	 */
-//	public Media saveMedia(Media media){
-//		EntityManagerFactory emf = PersistenceManagerFactorySingleton.instance();
-//		EntityManager em = emf.createEntityManager();
-//		em.getTransaction().begin();
-//		em.persist(media);
-//		em.getTransaction().commit();
-//		em.close();
-//		return media;
-//	}
-//	
-//	/**
-//	 * recupere un media par id
-//	 * @param id
-//	 * @return
-//	 */
-//	public Media getAdherent(Long id){
-//		EntityManagerFactory emf = PersistenceManagerFactorySingleton.instance();
-//		EntityManager em = emf.createEntityManager();
-//		Media media = em.find(Media.class, id);
-//		em.close();
-//		return media;
-//	}
-//	
-//	
-//	
-//	/**
-//	 * update un media
-//	 * @param adh
-//	 * @return
-//	 */
-//	public Media updateAdherent(Media media){
-//		EntityManagerFactory emf = PersistenceManagerFactorySingleton.instance();
-//		EntityManager em = emf.createEntityManager();
-//		em.getTransaction().begin();
-//		em.merge(media);
-//		em.getTransaction().commit();
-//		em.close();
-//		return media;
-//	}
-//	
-//	
-//	/**
-//	 * recuper tous les medias
-//	 */
-//	public List<Media> getAllAdherent(){
-//		EntityManagerFactory emf = PersistenceManagerFactorySingleton.instance();
-//		EntityManager em = emf.createEntityManager();
-//		TypedQuery<Media> queryGetAll = em.createQuery(
-//				"select m from Media m", Media.class);
-//		List<Media> listMedia = queryGetAll.getResultList();
-//		em.close();
-//		return listMedia;
-//	}
-//	
-//	
-//	
-//	/**
-//	 * supprimer un media
-//	 */
-//	public void removeAdherent(Long id){
-//		
-//		EntityManagerFactory emf = PersistenceManagerFactorySingleton.instance();
-//		EntityManager em = emf.createEntityManager();
-//		Media media = em.find(Media.class, id);
-//		em.remove(media);
-//		em.close();
-//	}
-//	
-//	
-//	
-//	
-//	/**
-//	 * recuper la liste des medias par filtre
-//	 */
-//	public List<Media> getAdherentByName(String filter){
-//		EntityManagerFactory emf = PersistenceManagerFactorySingleton.instance();
-//		EntityManager em = emf.createEntityManager();
-//		TypedQuery<Media> query = em.createQuery(
-//				"select m from Media m where titre like :filter", Media.class);
-//		query.setParameter("filter", "%" + filter + "%");
-//		List<Media> mediaList = query.getResultList();
-//		
-//		return mediaList;
-//	}
-//	
-	
-	
-
-	
+		
 	
 }
