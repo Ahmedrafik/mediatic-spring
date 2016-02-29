@@ -1,0 +1,2 @@
+insert into Utilisateur (id, nom, prenom, email, login, password) values (1.0, 'Enfer', 'Cruella', 'cruella@disney.fr', 'cruella', '101d');
+insert into Utilisateur (id, nom, prenom, email, login, password) values (2.0, 'Malefique', 'Malefique', 'malefique@disney.fr', 'malefique', 'dragontransform');
