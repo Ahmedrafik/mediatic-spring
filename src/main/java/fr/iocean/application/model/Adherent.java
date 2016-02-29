@@ -36,15 +36,32 @@ public class Adherent implements IoEntity {
 	@OneToMany(mappedBy = "adherent", fetch = FetchType.EAGER)
 	private List<Emprunt> listeEmprunt = new ArrayList<>();
 
-	public Adherent() {
-	}
+
 	
-	public Adherent(String nom, String prenom, String email, LocalDate date, Adresse adresse, Cotisation cotisation) {
-		Coordonnees coordonnees = new Coordonnees(nom, prenom, email);
+
+	@Override
+	public String toString() {
+		return super.toString() + "Adherent [dateNaissance=" + dateNaissance + ", adresse=" + adresse + ", cotisation=" + cotisation
+				+ ", listeEmprunt=" + listeEmprunt + "]";
+	}
+
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+		
+	}
+
+	public Coordonnees getCoordonnees() {
+		return coordonnees;
+	}
+
+	public void setCoordonnees(Coordonnees coordonnees) {
 		this.coordonnees = coordonnees;
-		this.dateNaissance = date;
-		this.adresse = adresse;
-		this.cotisation = cotisation;
 	}
 
 	public LocalDate getDateNaissance() {
@@ -78,34 +95,7 @@ public class Adherent implements IoEntity {
 	public void setListeEmprunt(List<Emprunt> listeEmprunt) {
 		this.listeEmprunt = listeEmprunt;
 	}
+
 	
-	public int nbMedias(){
-		return this.listeEmprunt != null ? this.listeEmprunt.size() : 0;
-	}
-
-	public Coordonnees getCoordonnees() {
-		return coordonnees;
-	}
-
-	public void setCoordonnees(Coordonnees coordonnees) {
-		this.coordonnees = coordonnees;
-	}
-
-	@Override
-	public String toString() {
-		return super.toString() + "Adherent [dateNaissance=" + dateNaissance + ", adresse=" + adresse + ", cotisation=" + cotisation
-				+ ", listeEmprunt=" + listeEmprunt + "]";
-	}
-
-	@Override
-	public Long getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(Long id) {
-		this.id = id;
-		
-	}
-
+	
 }

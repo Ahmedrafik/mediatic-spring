@@ -4,6 +4,7 @@ import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +17,11 @@ import fr.iocean.application.model.Utilisateur;
 import fr.iocean.application.service.UtilisateurService;
 
 
-
-
 @RestController
 @RequestMapping("api/utilsateur")
 public class UtilisateurController {
 
-	
+
 	@Autowired
 	UtilisateurService utilisateurService;
 	
@@ -32,6 +31,7 @@ public class UtilisateurController {
 	 * 
 	 * @param resource
 	 */
+	@PreAuthorize("hasRole('R_ADMIN')")
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void create(@RequestBody @Valid Utilisateur resource) {
@@ -44,6 +44,7 @@ public class UtilisateurController {
 	 * @param id
 	 * @param user
 	 */
+	@PreAuthorize("hasRole('R_ADMIN')")
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
 	public Utilisateur updateUtilisateur(@PathVariable("id") long id, @RequestBody @Valid Utilisateur utilisateur) throws NotFoundException{
 		utilisateur.setId(id);
@@ -56,6 +57,7 @@ public class UtilisateurController {
 	 * FIND ALL USERS
 	 * @return
 	 */
+	@PreAuthorize("hasRole('R_ADMIN')")
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Utilisateur> findAll() {
 		List<Utilisateur> users = utilisateurService.findAll();
@@ -74,6 +76,7 @@ public class UtilisateurController {
 	 * @param id
 	 * @return
 	 */
+	@PreAuthorize("hasRole('R_ADMIN')")
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public Utilisateur findById(@PathVariable Long id) throws NotFoundException {
@@ -88,6 +91,7 @@ public class UtilisateurController {
 	 * 
 	 * @param id
 	 */
+	@PreAuthorize("hasRole('R_ADMIN')")
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	public void deleteUtilisateur(@PathVariable("id") long id) throws NotFoundException{
 		utilisateurService.delete(id);
