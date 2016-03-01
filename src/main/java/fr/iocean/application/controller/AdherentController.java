@@ -27,39 +27,39 @@ public class AdherentController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	@PreAuthorize("hasAuthority('R_ADMIN', 'R_UTILISATEUR')")
+	@PreAuthorize("hasAnyAuthority('R_ADMIN', 'R_UTILISATEUR')")
 	public void create(@RequestBody @Valid Adherent adherent){
 		adherentService.save(adherent);
 	}
 	
 	
 	@RequestMapping(value="{id}", method = RequestMethod.GET)
-	@PreAuthorize("hasAuthority('R_ADMIN', 'R_UTILISATEUR', 'R_STAGIAIRE')")
+	@PreAuthorize("hasAnyAuthority('R_ADMIN', 'R_UTILISATEUR', 'R_STAGIAIRE')")
 	public Adherent findById(@PathVariable Long id) throws NotFoundException {
 		return adherentService.findById(id);
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
-	@PreAuthorize("hasAuthority('R_ADMIN', 'R_UTILISATEUR', 'R_STAGIAIRE')")
+	@PreAuthorize("hasAnyAuthority('R_ADMIN', 'R_UTILISATEUR', 'R_STAGIAIRE')")
 	public List<Adherent> findAll(){
 		return adherentService.findAll();
 	}
 	
 	@RequestMapping(value="{id}", method = RequestMethod.PUT)
-	@PreAuthorize("hasAuthority('R_ADMIN', 'R_UTILISATEUR')")
+	@PreAuthorize("hasAnyAuthority('R_ADMIN', 'R_UTILISATEUR')")
 	public void update(@PathVariable Long id, @RequestBody @Valid Adherent adherent){
 		adherentService.save(adherent);
 	}
 	
 	@RequestMapping(value="{id}", method = RequestMethod.DELETE)
-	@PreAuthorize("hasAuthority('R_ADMIN', 'R_UTILISATEUR')")
+	@PreAuthorize("hasAnyAuthority('R_ADMIN', 'R_UTILISATEUR')")
 	public void delete(@PathVariable Long id) throws NotFoundException{
 		Adherent userToRemove = this.findById(id);
 		adherentService.delete(userToRemove.getId());
 	}
 	
 	@RequestMapping(value="{name}/{id}", method = RequestMethod.GET)
-	@PreAuthorize("hasAuthority('R_ADMIN', 'R_UTILISATEUR', 'R_STAGIAIRE')")
+	@PreAuthorize("hasAnyAuthority('R_ADMIN', 'R_UTILISATEUR', 'R_STAGIAIRE')")
 	public List<Adherent> findAllWithFilters(String name, Long id){
 		return adherentService.getAdherentByFilters(name, id);
 	}

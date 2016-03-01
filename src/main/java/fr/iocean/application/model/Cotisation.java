@@ -1,6 +1,8 @@
 package fr.iocean.application.model;
 
 import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -23,7 +25,7 @@ public class Cotisation implements IoEntity {
 	
 	private float montant;
 	
-	private LocalDate dateCotisation;
+	private Date dateCotisation;
 	
 	@Enumerated(value = EnumType.STRING)
 	private TypeCotisation typeCotisation;
@@ -36,7 +38,7 @@ public class Cotisation implements IoEntity {
 	public Cotisation(){
 	}
 	
-	public Cotisation(float montant, LocalDate date,TypeCotisation typeCotisation){ /* todo : eventuel try catch pour v�rif l'existance du type cotisation */
+	public Cotisation(float montant, Date date,TypeCotisation typeCotisation){ /* todo : eventuel try catch pour v�rif l'existance du type cotisation */
 		this.montant = montant;
 		this.dateCotisation = date;
 		this.typeCotisation = typeCotisation;
@@ -48,12 +50,15 @@ public class Cotisation implements IoEntity {
 		return montant;
 	}
 
-	public LocalDate getDateCotisation() {
+	public Date getDateCotisation() {
 		return dateCotisation;
 	}
 
-	public LocalDate getFinAdhesion(){
-		return dateCotisation.plusYears(1); 
+	public Date getFinAdhesion(){
+		Calendar cal = Calendar.getInstance();
+	    cal.setTime(dateCotisation);
+	    cal.add(Calendar.DATE, 365); //minus number would decrement the days
+	    return cal.getTime();
 	}
 	
 	public TypeCotisation getTypeCotisation() {
@@ -66,7 +71,7 @@ public class Cotisation implements IoEntity {
 		this.montant = montant;
 	}
 
-	public void setDateCotisation(LocalDate dateCotisation) {
+	public void setDateCotisation(Date dateCotisation) {
 		this.dateCotisation = dateCotisation;
 	}
 	
@@ -77,7 +82,7 @@ public class Cotisation implements IoEntity {
 	// Méthodes
 	
 	public static boolean isUpToDateCotisation(Adherent adh){
-		return adh.getCotisation().getDateCotisation().plusYears(1L).isAfter(LocalDate.now());
+		return adh.getCotisation().getFinAdhesion().after(new Date());
 	}
 	
 	@Override

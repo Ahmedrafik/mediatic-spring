@@ -1,6 +1,7 @@
 package fr.iocean.application.model;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,19 +23,19 @@ public class Emprunt implements IoEntity {
 	@ManyToOne
 	private Media media;
 	
-	private LocalDate date_emprunt;
+	private Date date_emprunt;
 	
-	private LocalDate date_retour;
+	private Date date_retour;
 	
 	public Emprunt(){}
 	
-	public Emprunt(Adherent adherent, Media media, LocalDate date_emprunt) {
+	public Emprunt(Adherent adherent, Media media, Date date_emprunt) {
 		this.adherent = adherent;
 		this.media = media;
 		this.date_emprunt = date_emprunt;
 		this.date_retour = null;
 	}
-	public Emprunt(Adherent adherent, Media media, LocalDate date_emprunt, LocalDate date_retour) {
+	public Emprunt(Adherent adherent, Media media, Date date_emprunt, Date date_retour) {
 		this.adherent = adherent;
 		this.media = media;
 		this.date_emprunt = date_emprunt;
@@ -65,19 +66,19 @@ public class Emprunt implements IoEntity {
 		this.media = media;
 	}
 
-	public LocalDate getDate_emprunt() {
+	public Date getDate_emprunt() {
 		return date_emprunt;
 	}
 
-	public void setDate_emprunt(LocalDate date_emprunt) {
+	public void setDate_emprunt(Date date_emprunt) {
 		this.date_emprunt = date_emprunt;
 	}
 
-	public LocalDate getDate_retour() {
+	public Date getDate_retour() {
 		return date_retour;
 	}
 
-	public void setDate_retour(LocalDate date_retour) {
+	public void setDate_retour(Date date_retour) {
 		this.date_retour = date_retour;
 	}
 

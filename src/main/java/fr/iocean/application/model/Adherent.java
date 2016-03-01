@@ -1,7 +1,7 @@
 package fr.iocean.application.model;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Embedded;
@@ -25,7 +25,7 @@ public class Adherent implements IoEntity {
 	@Valid
 	private Coordonnees coordonnees;
 	
-	private LocalDate dateNaissance;
+	private Date dateNaissance;
 	
 	@Embedded
 	private Adresse adresse;
@@ -39,7 +39,7 @@ public class Adherent implements IoEntity {
 
 	public Adherent(){}
 
-	public Adherent(String nom, String prenom, String email, LocalDate dateNaissance, Adresse adresse, Cotisation cotisation) {
+	public Adherent(String nom, String prenom, String email, Date dateNaissance, Adresse adresse, Cotisation cotisation) {
 		super();
 		this.coordonnees = new Coordonnees(nom, prenom, email);
 		this.dateNaissance = dateNaissance;
@@ -73,11 +73,11 @@ public class Adherent implements IoEntity {
 		this.coordonnees = coordonnees;
 	}
 
-	public LocalDate getDateNaissance() {
+	public Date getDateNaissance() {
 		return dateNaissance;
 	}
 
-	public void setDateNaissance(LocalDate dateNaissance) {
+	public void setDateNaissance(Date dateNaissance) {
 		this.dateNaissance = dateNaissance;
 	}
 
