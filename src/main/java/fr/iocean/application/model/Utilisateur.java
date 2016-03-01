@@ -30,6 +30,8 @@ public class Utilisateur implements IoEntity {
 	private List<Credential> credentials;
 
 	public Utilisateur(String nom, String prenom, String email, String login, String password) {
+		this.login = login;
+		this.password = password;
 		Coordonnees coordonnees = new Coordonnees(nom, prenom, email);
 		this.coordonnees = coordonnees;
 	}

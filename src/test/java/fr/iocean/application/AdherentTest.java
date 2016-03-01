@@ -1,13 +1,14 @@
 package fr.iocean.application;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDate;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
@@ -15,20 +16,24 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import fr.iocean.application.model.Adherent;
+import fr.iocean.application.model.Adresse;
+import fr.iocean.application.model.Cotisation;
 import fr.iocean.application.model.Utilisateur;
-
+import fr.iocean.application.typeEnum.TypeCotisation;
 
 @Sql("classpath:test-user-data.sql")
-public class UserTest extends IntegrationTest{
-	
+public class AdherentTest extends IntegrationTest {
+
 	@Test
 	@WithMockUser(authorities="R_ADMIN")
 	public void testCreateByAdmin() throws Exception{
-		Utilisateur utilisateur = new Utilisateur("Fondepierre", "Cindy", "Cindy.Fondes@papillon.lumiere", "Cindy", "papillon");
-		this.mockMvc.perform(post("/api/utilisateur")
+		Adherent adh= new Adherent("Sebastien", "Patrick", "pat@cabaret.net", LocalDate.of(1999, 10, 24), new Adresse(147, "le plus beau cabaret du monde", 34000, "Montpellier"), new Cotisation(152.10f, LocalDate.of(2015, 12, 25), TypeCotisation.GROUPE));
+		this.mockMvc.perform(post("/api/adherent")
 				.contentType(MediaType.APPLICATION_JSON)
 				.characterEncoding("UTF-8")
-				.content(jsonHelper.serialize(utilisateur)))
+				.content(jsonHelper.serialize(adh)))
+				.andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isCreated());
 	}
 	
@@ -36,11 +41,22 @@ public class UserTest extends IntegrationTest{
 	@Test
 	@WithMockUser(authorities="R_UTILISATEUR")
 	public void testCreateByUser() throws Exception{
-		Utilisateur utilisateur = new Utilisateur("pumba", "pumba", "pumba@papillon.lumiere", "Pumba", "hakuna");
-		this.mockMvc.perform(post("/api/utilisateur")
+		Adherent adh= new Adherent("Sebastien", "Patrick", "pat@cabaret.net", LocalDate.of(1999, 10, 24), new Adresse(147, "le plus beau cabaret du monde", 34000, "Montpellier"), new Cotisation(152.10f, LocalDate.of(2015, 12, 25), TypeCotisation.GROUPE));
+		this.mockMvc.perform(post("/api/adherent")
 				.contentType(MediaType.APPLICATION_JSON)
 				.characterEncoding("UTF-8")
-				.content(jsonHelper.serialize(utilisateur)))
+				.content(jsonHelper.serialize(adh)))
+				.andExpect(status().isCreated());
+	}
+	
+	@Test
+	@WithMockUser(authorities="R_STAGIAIRE")
+	public void testCreateByStagiaire() throws Exception{
+		Adherent adh= new Adherent("Sebastien", "Patrick", "pat@cabaret.net", LocalDate.of(1999, 10, 24), new Adresse(147, "le plus beau cabaret du monde", 34000, "Montpellier"), new Cotisation(152.10f, LocalDate.of(2015, 12, 25), TypeCotisation.GROUPE));
+		this.mockMvc.perform(post("/api/adherent")
+				.contentType(MediaType.APPLICATION_JSON)
+				.characterEncoding("UTF-8")
+				.content(jsonHelper.serialize(adh)))
 				.andExpect(status().isForbidden());
 	}
 	
@@ -90,7 +106,5 @@ public class UserTest extends IntegrationTest{
 			.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
 	}
-	
-	
 	
 }

@@ -31,7 +31,7 @@ public class UtilisateurController {
 	 * 
 	 * @param resource
 	 */
-	@PreAuthorize("hasRole('R_ADMIN')")
+	@PreAuthorize("hasAuthority('R_ADMIN')")
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void create(@RequestBody @Valid Utilisateur resource) {
@@ -44,7 +44,7 @@ public class UtilisateurController {
 	 * @param id
 	 * @param user
 	 */
-	@PreAuthorize("hasRole('R_ADMIN')")
+	@PreAuthorize("hasAuthority('R_ADMIN')")
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
 	public Utilisateur updateUtilisateur(@PathVariable("id") long id, @RequestBody @Valid Utilisateur utilisateur) throws NotFoundException{
 		utilisateur.setId(id);
@@ -57,7 +57,7 @@ public class UtilisateurController {
 	 * FIND ALL USERS
 	 * @return
 	 */
-	@PreAuthorize("hasRole('R_ADMIN')")
+	@PreAuthorize("hasAuthority('R_ADMIN')")
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Utilisateur> findAll() {
 		List<Utilisateur> users = utilisateurService.findAll();
@@ -76,7 +76,7 @@ public class UtilisateurController {
 	 * @param id
 	 * @return
 	 */
-	@PreAuthorize("hasRole('R_ADMIN')")
+	@PreAuthorize("hasAuthority('R_ADMIN')")
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public Utilisateur findById(@PathVariable Long id) throws NotFoundException {
@@ -91,7 +91,7 @@ public class UtilisateurController {
 	 * 
 	 * @param id
 	 */
-	@PreAuthorize("hasRole('R_ADMIN')")
+	@PreAuthorize("hasAuthority('R_ADMIN')")
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	public void deleteUtilisateur(@PathVariable("id") long id) throws NotFoundException{
 		utilisateurService.delete(id);

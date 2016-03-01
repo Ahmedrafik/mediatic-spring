@@ -37,7 +37,16 @@ public class Adherent implements IoEntity {
 	private List<Emprunt> listeEmprunt = new ArrayList<>();
 
 
-	
+	public Adherent(){}
+
+	public Adherent(String nom, String prenom, String email, LocalDate dateNaissance, Adresse adresse, Cotisation cotisation) {
+		super();
+		this.coordonnees = new Coordonnees(nom, prenom, email);
+		this.dateNaissance = dateNaissance;
+		this.adresse = adresse;
+		this.cotisation = cotisation;
+		this.listeEmprunt = new ArrayList<Emprunt>();
+	}
 
 	@Override
 	public String toString() {
